@@ -158,4 +158,4 @@ async def dab(ctx):
     await member.add_roles(role)
     print ("You're in buddy, now don't fuck it up")
 
-client.run("NTAzMTgyODE4NjY3NjU5Mjc0.XV0QwA.BAgIQO1mVg0z7p93cOgHsbLN1kM")
+client.run("")
