@@ -1,19 +1,20 @@
 # Nukebot
-Discord bot that can nuke servers
-README for disabled people
-step 1. install python (I use 3.5.3) make sure you check install path and install pip
-step 2. install discord.py by typing: "pip install discord.py" in cmd
-step 3. download an IDE (visual studio code, atom or whatever)
-step 4. change whatever you want, commands start with "def"
-step 5. add a bot token in the last line
-step 6. run the .py file 
-step 7. fuck up servers
+Discord bot that can nuke servers  
 
-some info
-commands start with "$" ($help for example)
-the malicious commands are:
-"$secret" to check all the malicious commands
-"$dab" to gain administrator if the bot has administrator
-"$rape" to ban everyone and delete all the channels. (bot role must be above the members role)
-"$h" to kick everyone. (bot role must be above the members role)
-non-hidden commands are viewed with $help
+**README for disabled people**
+1. Install Python (I use 3.5.3) make sure you check install path and have pip
+2. Install discord.py by typing: `pip install discord.py` in a terminal
+3. Download an IDE (Visual Studio code, Atom, Notepad++, whatever you want)
+4. Change whatever you want, commands start with `def`
+5. Add a bot token in the last line
+6. Run the .py file
+7. Fuck up servers
+
+**Some info**
+* Commands start with "$" ($help for example)
+* The malicious commands are:
+* Do `$secret` to see all the malicious commands
+* `$dab` to gain administrator if the bot has administrator perms
+* `$rape` to ban everyone and delete all the channels. (bot role must be above the members role to be able to ban them)
+* `$h` to kick everyone (bot role must again be above the members role)
+* Non-hidden commands are viewed with $help
